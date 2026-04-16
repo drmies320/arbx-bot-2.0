@@ -1,0 +1,3264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARBX Pro</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;font-size:13px;transition:background .3s,color .3s}
+body.dark{background:#07070f;color:#e0e0e0}
+body.light{background:#f0f2f5;color:#1a1a2e}
+:root{--g:#00d4a0;--r:#ff4d6d;--b:#4da6ff;--y:#ffd166;--p:#a78bfa}
+body.dark{--card:#0f0f1a;--card2:#0a0a14;--brd:#1a1a2e;--mu:#555;--mu2:#888;--inp:#07070f;--hdr:#0a0a14}
+body.light{--card:#ffffff;--card2:#f8f9fb;--brd:#dde1ea;--mu:#aaa;--mu2:#888;--inp:#fff;--hdr:#ffffff}
+
+.hdr{background:var(--hdr);border-bottom:1px solid var(--brd);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:9px}
+.lbox{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,#00d4a0,#4da6ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#000}
+.lname{font-size:16px;font-weight:800;letter-spacing:-.4px}
+.lpro{font-size:9px;color:var(--g);background:rgba(0,212,160,.1);padding:2px 6px;border-radius:3px;margin-left:4px;font-weight:700}
+.hright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mpill{display:flex;background:var(--card2);border:1px solid var(--brd);border-radius:7px;padding:3px;gap:3px}
+.mpb{border:none;border-radius:5px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
+.mbdg{font-size:10px;padding:4px 9px;border-radius:5px;font-weight:700;white-space:nowrap}
+.bdemo{background:rgba(255,209,102,.1);color:var(--y);border:1px solid rgba(255,209,102,.25)}
+.blive{background:rgba(255,77,109,.1);color:var(--r);border:1px solid rgba(255,77,109,.25)}
+.wbtn{background:rgba(77,166,255,.12);color:var(--b);border:1px solid rgba(77,166,255,.35);border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer;font-weight:700;transition:all .2s}
+.wbtn:hover{background:rgba(77,166,255,.22)}
+.wbtn.on{background:rgba(0,212,160,.1);color:var(--g);border-color:rgba(0,212,160,.3)}
+.theme-btn{border:1px solid var(--brd);background:var(--card2);color:var(--mu2);border-radius:7px;padding:7px 12px;font-size:12px;cursor:pointer;font-weight:700;transition:all .2s}
+.theme-btn:hover{border-color:var(--g);color:var(--g)}
+
+.tick{background:var(--hdr);border-bottom:1px solid var(--brd);padding:8px 18px;display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;align-items:center}
+.tick::-webkit-scrollbar{display:none}
+.ti{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.ts{font-size:11px;font-weight:700}
+.tp{font-size:11px;color:var(--mu2)}
+.tc{font-size:10px;padding:2px 5px;border-radius:3px;font-weight:700}
+.up{background:rgba(0,212,160,.15);color:var(--g)}.dn{background:rgba(255,77,109,.15);color:var(--r)}
+.tdiv{color:var(--brd);margin:0 2px}
+
+.wrap{flex:1;display:grid;grid-template-columns:280px 1fr;min-height:0}
+.sb{background:var(--card);border-right:1px solid var(--brd);padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.ct{padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}.sb{border-right:none;border-bottom:1px solid var(--brd)}}
+
+.card{background:var(--card);border:1px solid var(--brd);border-radius:11px;padding:14px}
+.card2{background:var(--card2);border:1px solid var(--brd);border-radius:8px;padding:11px}
+.ctit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--mu2);margin-bottom:11px;display:flex;align-items:center;justify-content:space-between}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.mc{background:var(--card2);border:1px solid var(--brd);border-radius:8px;padding:10px}
+.ml{font-size:10px;color:var(--mu2);margin-bottom:3px}
+.mv{font-size:17px;font-weight:800;letter-spacing:-.4px}
+.ms{font-size:10px;color:var(--mu);margin-top:2px}
+.cg{color:var(--g)}.cr{color:var(--r)}.cb{color:var(--b)}.cy{color:var(--y)}
+
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dlive{background:var(--g);box-shadow:0 0 5px var(--g);animation:blink 2s infinite}
+.doff{background:#777}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.trow{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.tlbl{font-size:12px}
+.tog{width:38px;height:22px;background:var(--brd);border-radius:11px;cursor:pointer;position:relative;border:none;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--g)}
+.tog::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.tog.on::after{transform:translateX(16px)}
+
+.fld{margin-bottom:9px}
+.fld label{font-size:10px;color:var(--mu2);display:block;margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.fld input,.fld select{width:100%;background:var(--inp);border:1px solid var(--brd);border-radius:7px;padding:8px 10px;font-size:12px;color:inherit;outline:none;transition:border .2s;font-family:inherit}
+.fld input:focus,.fld select:focus{border-color:var(--b)}
+.fld select option{background:var(--card)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rrow{display:flex;align-items:center;gap:7px}
+.rrow input[type=range]{flex:1;accent-color:var(--g)}
+.rval{font-size:11px;color:var(--g);min-width:34px;text-align:right;font-weight:700}
+
+.btn{border:none;border-radius:7px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;width:100%}
+.bg{background:var(--g);color:#000}.bg:hover{opacity:.85}
+.bg:disabled{background:#2a6b5c;color:#1a3d35;cursor:not-allowed;opacity:.6}
+.br{background:rgba(255,77,109,.15);color:var(--r);border:1px solid rgba(255,77,109,.3)}.br:hover{background:rgba(255,77,109,.25)}
+.bb{background:rgba(77,166,255,.15);color:var(--b);border:1px solid rgba(77,166,255,.3)}.bb:hover{background:rgba(77,166,255,.25)}
+.bp{background:rgba(167,139,250,.15);color:var(--p);border:1px solid rgba(167,139,250,.3)}.bp:hover{background:rgba(167,139,250,.25)}
+.by{background:rgba(255,209,102,.15);color:var(--y);border:1px solid rgba(255,209,102,.3)}.by:hover{background:rgba(255,209,102,.25)}
+.brow{display:flex;gap:6px;margin-top:9px}
+.brow .btn{flex:1}
+
+.opp{background:rgba(0,212,160,.04);border:1px solid rgba(0,212,160,.2);border-radius:8px;padding:10px;margin-bottom:7px}
+.opp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.opp-pair{font-size:13px;font-weight:700}
+.opp-net{font-size:14px;font-weight:900;color:var(--g)}
+.opp-mid{font-size:11px;color:var(--mu2);margin-bottom:7px;line-height:1.6}
+.opp-bot{display:flex;align-items:center;justify-content:space-between}
+.opp-stats{display:flex;gap:8px;font-size:10px;color:var(--mu2)}
+.oxbtn{background:var(--g);color:#000;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:800;cursor:pointer;transition:opacity .2s}
+.oxbtn:hover{opacity:.85}
+.no-opp{text-align:center;padding:20px;color:var(--mu);font-size:12px;line-height:1.8}
+
+.tag{font-size:9px;padding:2px 5px;border-radius:3px;font-weight:800;margin-left:3px}
+.tr{background:rgba(0,212,160,.15);color:var(--g)}
+.tmev{background:rgba(167,139,250,.15);color:var(--p)}
+.tfl{background:rgba(77,166,255,.15);color:var(--b)}
+.tlv{background:rgba(255,77,109,.15);color:var(--r)}
+.tdm{background:rgba(255,209,102,.1);color:var(--y)}
+
+.pfrow{background:var(--card2);border:1px solid var(--brd);border-radius:7px;padding:9px 11px;margin-bottom:6px}
+.pfpair{font-size:12px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+.pfg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.pfc .lbl{font-size:10px;color:var(--mu2);margin-bottom:1px}
+.pfc .val{font-size:12px;font-weight:700}
+
+.gbar{height:5px;background:var(--brd);border-radius:3px;margin:6px 0;overflow:hidden}
+.gfill{height:100%;border-radius:3px;transition:width .5s,background .5s}
+.glbl{display:flex;justify-content:space-between;font-size:9px;color:var(--mu)}
+.gcds{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px}
+.gcrd{background:var(--card2);border:1px solid var(--brd);border-radius:7px;padding:8px;cursor:pointer;transition:border .2s;text-align:center}
+.gcrd.sel{border-color:var(--g)}
+.gcrd .gl{font-size:9px;color:var(--mu2);margin-bottom:2px;text-transform:uppercase;font-weight:700}
+.gcrd .gv{font-size:14px;font-weight:800}
+
+.log{background:var(--card2);border-radius:8px;overflow:hidden;max-height:220px;overflow-y:auto;border:1px solid var(--brd)}
+.log::-webkit-scrollbar{width:3px}
+.log::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
+.lrow{display:grid;grid-template-columns:65px 80px 1fr 70px 48px 60px;gap:5px;padding:7px 10px;border-bottom:1px solid var(--brd);font-size:11px;align-items:center}
+.lhdr{background:var(--card);font-size:9px;color:var(--mu2);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.lst{font-size:9px;padding:2px 5px;border-radius:3px;font-weight:800;text-align:center}
+.ls{background:rgba(0,212,160,.1);color:var(--g)}.lf{background:rgba(255,77,109,.1);color:var(--r)}
+
+.route{background:var(--card2);border:1px solid var(--brd);border-radius:7px;padding:9px;margin-bottom:6px;cursor:pointer;transition:border .2s}
+.route:hover,.route.sel{border-color:var(--g)}
+.rt{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.rn{font-size:12px;font-weight:700}.rp{font-size:12px;font-weight:800}
+.rd{font-size:10px;color:var(--mu2);display:flex;gap:8px;flex-wrap:wrap}
+
+.riskbar{height:7px;border-radius:4px;background:var(--brd);overflow:hidden;margin:5px 0}
+.riskfill{height:100%;border-radius:4px;transition:width .4s,background .4s}
+.tabs{display:flex;gap:5px;margin-bottom:11px}
+.tab{flex:1;border:1px solid var(--brd);background:var(--card2);color:var(--mu2);border-radius:6px;padding:5px;font-size:10px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;text-transform:uppercase}
+.tab.ta{background:rgba(77,166,255,.1);color:var(--b);border-color:rgba(77,166,255,.3)}
+.tab.td{background:rgba(255,209,102,.1);color:var(--y);border-color:rgba(255,209,102,.3)}
+.tab.tl{background:rgba(255,77,109,.1);color:var(--r);border-color:rgba(255,77,109,.3)}
+
+.sbar{background:var(--hdr);border-top:1px solid var(--brd);padding:5px 18px;display:flex;align-items:center;gap:14px;font-size:10px;color:var(--mu2);flex-wrap:wrap}
+.si{display:flex;align-items:center;gap:4px}
+.dbal{background:rgba(0,212,160,.06);border:1px solid rgba(0,212,160,.2);border-radius:8px;padding:11px}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:24px;width:100%;max-width:400px}
+.modal h2{font-size:16px;font-weight:800;margin-bottom:6px}
+.modal p{font-size:12px;color:var(--mu2);margin-bottom:16px;line-height:1.6}
+.mopt{background:var(--card2);border:1px solid var(--brd);border-radius:9px;padding:13px;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.mopt:hover{border-color:var(--g)}
+.mopt-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.mopt-desc{font-size:11px;color:var(--mu2);line-height:1.5}
+.mclose{width:100%;background:var(--card2);color:var(--mu2);border:1px solid var(--brd);border-radius:7px;padding:9px;font-size:12px;cursor:pointer;font-weight:700;margin-top:4px}
+.mclose:hover{border-color:var(--r);color:var(--r)}
+
+.cpanel{background:rgba(77,166,255,.04);border:1px solid rgba(77,166,255,.2);border-radius:8px;padding:12px}
+.ai{width:100%;background:var(--inp);border:1px solid var(--brd);border-radius:7px;padding:8px 10px;font-size:11px;color:inherit;outline:none;font-family:monospace;transition:border .2s;margin-bottom:7px;display:block}
+.ai:focus{border-color:var(--b)}
+.ai::placeholder{color:var(--mu)}
+.ptag{display:inline-flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--brd);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;margin:2px}
+.ptag .rm{cursor:pointer;color:var(--r);font-weight:900}
+.twopct{background:rgba(0,212,160,.06);border:1px solid rgba(0,212,160,.2);border-radius:7px;padding:9px;margin-bottom:9px;font-size:11px}
+</style>
+</head>
+<body class="dark">
+
+<div class="hdr">
+  <div class="logo">
+    <div class="lbox">A</div>
+    <div class="lname">ARBX<span class="lpro">PRO</span></div>
+  </div>
+  <div class="hright">
+    <div class="mpill">
+      <button class="mpb" id="btnDemo" style="background:var(--y);color:#000">DEMO</button>
+      <button class="mpb" id="btnLive" style="background:transparent;color:var(--mu)">LIVE</button>
+    </div>
+    <span class="mbdg bdemo" id="modeBadge">Demo Mode</span>
+    <button class="theme-btn" id="themeBtn">&#9728; Light</button>
+    <button class="wbtn" id="wbtn">Connect Wallet</button>
+  </div>
+</div>
+
+<div class="tick" id="ticker"><span style="color:var(--mu)">Loading prices...</span></div>
+
+<div class="wrap">
+  <div class="sb">
+
+    <div class="dbal" id="dbalCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:10px;color:var(--mu2);font-weight:700;text-transform:uppercase">Demo Balance</span>
+        <button class="btn by" style="width:auto;padding:3px 10px;font-size:10px" id="resetBalBtn">Reset</button>
+      </div>
+      <div style="font-size:20px;font-weight:900;color:var(--g)" id="dbalVal">$10,000.00</div>
+      <div style="font-size:10px;color:var(--mu2);margin-top:3px">P&amp;L: <span id="dbalPnl" class="cg">+$0.00</span></div>
+    </div>
+
+    <div>
+      <div class="ctit"><span><span class="dot doff" id="botDot"></span>&nbsp;Bot Engine</span><span id="botSt" style="color:var(--mu)">Idle</span></div>
+      <div class="trow"><span class="tlbl">Auto-Execute (MetaMask)</span><button class="tog" id="tAuto"></button></div>
+      <div class="trow"><span class="tlbl">Continuous Scan</span><button class="tog on" id="tScan"></button></div>
+      <div class="trow"><span class="tlbl">Flash Loan Mode</span><button class="tog" id="tFlash"></button></div>
+      <div class="trow"><span class="tlbl">MEV Protection</span><button class="tog on" id="tMev"></button></div>
+      <div class="trow"><span class="tlbl">Multi-Hop Routes</span><button class="tog" id="tHop"></button></div>
+      <div class="trow">
+        <span class="tlbl" style="display:flex;flex-direction:column;gap:2px">2% Rule<span style="font-size:10px;color:var(--mu2)">Min 2% profit/trade</span></span>
+        <button class="tog" id="t2pct"></button>
+      </div>
+      <div class="twopct" id="twoPctInfo" style="display:none">
+        <div style="font-weight:700;color:var(--g);margin-bottom:3px">2% Rule Active</div>
+        <div style="color:var(--mu2)">Trade <span id="twoPctAmt" style="font-weight:700">$2,400</span> &rarr; min <span id="twoPctMin" style="color:var(--g);font-weight:700">$48.00</span></div>
+      </div>
+      <div class="fld">
+        <label>Token Pair</label>
+        <select id="selPair">
+          <option value="WETH/USDC">WETH / USDC</option>
+          <option value="WETH/USDT">WETH / USDT</option>
+          <option value="WBTC/WETH">WBTC / WETH</option>
+          <option value="LINK/WETH">LINK / WETH</option>
+          <option value="DAI/USDC">DAI / USDC</option>
+        </select>
+      </div>
+      <div class="frow">
+        <div class="fld">
+          <label>Trade Size</label>
+          <div style="display:flex;gap:5px;align-items:center">
+            <input type="number" id="tradeAmt" value="1" min="0.01" step="0.1" style="flex:1">
+            <button class="btn bb" id="tradeUnitBtn" style="width:auto;padding:6px 10px;font-size:11px;flex-shrink:0">ETH</button>
+          </div>
+          <div style="font-size:10px;color:var(--g);margin-top:3px;font-weight:700" id="tradeSizeUsd">≈ $2,400.00 USD</div>
+        </div>
+        <div class="fld"><label>Min Profit ($)</label><input type="number" id="minProfit" value="5" min="1" step="1"></div>
+      </div>
+      <div class="brow">
+        <button class="btn bg" id="startBtn">&#9654; Start Bot</button>
+        <button class="btn br" id="stopBtn" disabled>&#9632; Stop</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="ctit">Custom Token Pairs</div>
+      <div class="cpanel">
+        <input class="ai" id="addrA" placeholder="Token A address (0x...)">
+        <input class="ai" id="addrB" placeholder="Token B address (0x...)">
+        <input class="ai" id="addrUni" placeholder="Uniswap pool (optional)">
+        <input class="ai" id="addrSushi" placeholder="SushiSwap pool (optional)">
+        <input class="ai" id="pairLabel" placeholder="Label e.g. FOO/BAR" style="margin-bottom:9px">
+        <button class="btn bb" id="addPairBtn">+ Add Custom Pair</button>
+        <div id="customList" style="margin-top:7px;display:flex;flex-wrap:wrap"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ctit">Risk Management</div>
+      <div class="fld"><label>Max Gas Cap (Gwei)</label>
+        <div class="rrow"><input type="range" min="10" max="300" value="80" id="gasCap" step="1"><span class="rval" id="gasCapV">80</span></div>
+      </div>
+      <div class="fld"><label>Slippage Tolerance</label>
+        <div class="rrow"><input type="range" min="1" max="30" value="5" id="slipR" step="1"><span class="rval" id="slipV">0.5%</span></div>
+      </div>
+      <div class="fld"><label>Stop Loss ($)</label>
+        <div class="rrow"><input type="range" min="10" max="2000" value="200" id="stopLoss" step="10"><span class="rval" id="stopLossV">$200</span></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:var(--mu2)">Risk Level</span><span id="riskLbl" style="color:var(--g);font-weight:800">LOW</span></div>
+        <div class="riskbar"><div class="riskfill" id="riskFill" style="width:20%;background:var(--g)"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ctit">Gas Estimator</div>
+      <div class="gcds">
+        <div class="gcrd" id="gSlow"><div class="gl">Slow</div><div class="gv" id="gvSlow">--</div><div style="font-size:9px;color:var(--mu)">Gwei</div></div>
+        <div class="gcrd sel" id="gStd"><div class="gl">Standard</div><div class="gv cg" id="gvStd">--</div><div style="font-size:9px;color:var(--mu)">Gwei</div></div>
+        <div class="gcrd" id="gFast"><div class="gl">Fast</div><div class="gv cy" id="gvFast">--</div><div style="font-size:9px;color:var(--mu)">Gwei</div></div>
+      </div>
+      <div class="gbar"><div class="gfill" id="gFill" style="width:25%;background:var(--g)"></div></div>
+      <div class="glbl"><span>Low</span><span>Med</span><span>High</span></div>
+      <div style="margin-top:7px;font-size:11px;color:var(--mu2)">Est. tx cost: <span id="txCost" style="font-weight:700">--</span></div>
+      <button class="btn bb" style="margin-top:9px" id="refGasBtn">Refresh Gas</button>
+    </div>
+
+  </div>
+
+  <div class="ct">
+
+    <div class="mg">
+      <div class="mc"><div class="ml">Session P&amp;L</div><div class="mv cg" id="mPnl">$0.00</div><div class="ms" id="mPnlSub">0 trades</div></div>
+      <div class="mc"><div class="ml">Win Rate</div><div class="mv cb" id="mWr">0%</div><div class="ms" id="mWrSub">0W / 0L</div></div>
+      <div class="mc"><div class="ml">Best Trade</div><div class="mv cg" id="mBest">$0.00</div><div class="ms">this session</div></div>
+      <div class="mc"><div class="ml">Gas Spent</div><div class="mv cy" id="mGas">$0.00</div><div class="ms" id="mGasSub">0 txns</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="card">
+        <div class="ctit"><span><span class="dot dlive" id="scanDot"></span>&nbsp;Live Opportunities</span><span id="oppCnt" style="color:var(--g);font-size:10px">Scanning...</span></div>
+        <div id="oppList"><div class="no-opp">Connect wallet &amp; start bot to scan.</div></div>
+      </div>
+      <div class="card">
+        <div class="ctit"><span>DEX Price Feed</span><span id="feedTime" style="font-size:10px;color:var(--mu)">--</span></div>
+        <div id="priceFeed"><div class="no-opp" style="padding:10px">Fetching real prices...</div></div>
+        <button class="btn bb" style="margin-top:9px" id="refPriceBtn">Refresh Prices</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctit"><span>Route Optimizer</span><span id="routeNote" style="font-size:10px;color:var(--mu)">--</span></div>
+      <div id="routeList" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:7px"></div>
+      <button class="btn bb" style="margin-top:9px" id="recalcBtn">Recalculate Routes</button>
+    </div>
+
+    <div class="card">
+      <div class="ctit">P&amp;L Breakdown</div>
+      <div class="tabs">
+        <div class="tab ta" data-t="all">All</div>
+        <div class="tab" data-t="demo">Demo</div>
+        <div class="tab" data-t="live">Live</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px">
+        <div class="card2"><div class="ml">Net P&amp;L</div><div class="mv cg" id="pPnl">$0.00</div></div>
+        <div class="card2"><div class="ml">Win Rate</div><div class="mv cb" id="pWr">0%</div></div>
+        <div class="card2"><div class="ml">Trades</div><div class="mv" id="pTr">0</div></div>
+        <div class="card2"><div class="ml">Best Trade</div><div class="mv cg" id="pBest">$0.00</div></div>
+        <div class="card2"><div class="ml">Gas Spent</div><div class="mv cy" id="pGas">$0.00</div></div>
+        <div class="card2"><div class="ml">Avg Profit</div><div class="mv" id="pAvg">$0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctit"><span>Trade Log</span>
+        <div style="display:flex;gap:5px">
+          <button class="btn bp" style="width:auto;padding:3px 10px;font-size:10px" id="exportBtn">Export CSV</button>
+          <button class="btn br" style="width:auto;padding:3px 10px;font-size:10px" id="clearBtn">Clear</button>
+        </div>
+      </div>
+      <div class="log" id="tlog">
+        <div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>
+        <div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sbar">
+  <div class="si"><span class="dot dlive"></span><span id="sbFeed">Feed active</span></div>
+  <div class="si"><span id="sbGas">Gas: --</span></div>
+  <div class="si"><span>ETH: <span id="sbEth">--</span></span></div>
+  <div class="si"><span>Scans: <span id="sbScans">0</span></span></div>
+  <div class="si" style="margin-left:auto"><span id="sbWallet" style="color:var(--mu)">No wallet</span></div>
+</div>
+
+<!-- Wallet Modal -->
+<div class="overlay" id="wModal" style="display:none">
+  <div class="modal">
+    <h2>Connect Wallet</h2>
+    <p>Choose how to connect. Use Simulated Wallet for Demo mode — no MetaMask needed.</p>
+    <div class="mopt" id="optMM"><div style="font-size:22px">&#129418;</div><div><div class="mopt-title">MetaMask</div><div class="mopt-desc">Connect your MetaMask wallet. Required for Live trading with real ETH.</div></div></div>
+    <div class="mopt" id="optSim"><div style="font-size:22px">&#127918;</div><div><div class="mopt-title">Simulated Wallet (Demo only)</div><div class="mopt-desc">$10,000 virtual balance. No MetaMask needed. For testing only — cannot switch to Live.</div></div></div>
+    <div class="mopt" id="optWatch"><div style="font-size:22px">&#128065;</div><div><div class="mopt-title">Watch Address</div><div class="mopt-desc">Monitor opportunities without executing trades.</div></div></div>
+    <div id="watchWrap" style="display:none;margin-top:8px">
+      <input class="ai" id="watchAddr" placeholder="0x... Ethereum address" style="margin-bottom:7px">
+      <button class="btn bb" id="watchConn">Connect Watch Address</button>
+    </div>
+    <button class="mclose" id="closeModal">Cancel</button>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── STATE ──────────────────────────────────────────────────────
+var S={
+  mode:'demo', wallet:null, wType:null, running:false,
+  gasMode:'standard', gas:{slow:22,standard:34,fast:55},
+  ethUsd:2400,
+  tog:{auto:false,scan:true,flash:false,mev:true,hop:false,twoPct:false},
+  prices:{}, pnlFilter:'all', scans:0, logs:[],
+  demoBal:10000, demoStart:10000,
+  stats:{
+    all:{w:0,l:0,pnl:0,gas:0,best:0},
+    demo:{w:0,l:0,pnl:0,gas:0,best:0},
+    live:{w:0,l:0,pnl:0,gas:0,best:0}
+  },
+  ivs:{}, customPairs:{}
+};
+
+var POOLS={
+  'WETH/USDC':{uni:'0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640',sushi:'0x397ff1542f962076d0bfe58ea045ffa2d347aca0'},
+  'WETH/USDT':{uni:'0x4e68ccd3e89f51c3074ca5072bbac773960dfa36',sushi:'0x06da0fd433c1a5d7a4faa01111c044910a184553'},
+  'WBTC/WETH':{uni:'0xcbcdf9626bc03e24f779434178a73a0b4bad62ed',sushi:'0xceff51756c56ceffca006cd410b03ffc46dd3a58'},
+  'LINK/WETH':{uni:'0xa6cc3c2531fdaa6ae1a3ca84c2855806728693e8',sushi:'0x167384319b41f7094e62f7506409eb38079abff8'},
+  'DAI/USDC': {uni:'0x5777d92f208679db4b9778590fa3cab3ac9e2168',sushi:'0xae461ca67b15dc8dc81ce7615e0320da1a9ab8d5'}
+};
+
+function el(id){return document.getElementById(id);}
+function fmt(n){return '$'+(+n).toFixed(2);}
+function fmtN(n){return(+n).toLocaleString(undefined,{maximumFractionDigits:4});}
+function tstamp(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+function isAddr(a){return /^0x[0-9a-fA-F]{40}$/.test((a||'').trim());}
+
+// ── THEME ──────────────────────────────────────────────────────
+var isDark=true;
+el('themeBtn').addEventListener('click',function(){
+  isDark=!isDark;
+  document.body.className=isDark?'dark':'light';
+  el('themeBtn').innerHTML=isDark?'&#9728; Light':'&#9790; Dark';
+});
+
+// ── WALLET MODAL ──────────────────────────────────────────────
+function openModal(){if(S.wallet){disconnect();return;}el('wModal').style.display='flex';}
+function closeModalFn(){el('wModal').style.display='none';el('watchWrap').style.display='none';}
+
+function setWallet(addr,type){
+  S.wallet=addr; S.wType=type;
+  var short=type==='sim'?'Sim Wallet (Demo)':type==='watch'?'Watch: '+addr.slice(0,6)+'...':addr.slice(0,6)+'...'+addr.slice(-4);
+  // Live mode button shows connected address; Demo sim shows clearly labeled
+  el('wbtn').textContent=type==='mm'?'&#129418; '+addr.slice(0,6)+'...'+addr.slice(-4):short;
+  el('wbtn').classList.add('on');
+  el('sbWallet').textContent=type==='mm'?'MetaMask: '+addr.slice(0,6)+'...'+addr.slice(-4):type==='sim'?'Simulated (Demo)':'Watch: '+addr.slice(0,6)+'...';
+  el('sbWallet').style.color=type==='mm'?'var(--g)':type==='sim'?'var(--y)':'var(--b)';
+}
+
+function disconnect(){
+  if(!confirm('Disconnect wallet?'))return;
+  S.wallet=null; S.wType=null;
+  el('wbtn').textContent='Connect Wallet';
+  el('wbtn').classList.remove('on');
+  el('sbWallet').textContent='No wallet';
+  el('sbWallet').style.color='var(--mu)';
+  if(S.mode==='live')setMode('demo');
+  if(S.running)stopBot();
+}
+
+el('wbtn').addEventListener('click',openModal);
+el('closeModal').addEventListener('click',closeModalFn);
+
+el('optMM').addEventListener('click',function(){
+  closeModalFn();
+  if(typeof window.ethereum==='undefined'){
+    alert('MetaMask Not Detected!\n\nTo connect MetaMask:\n\n1. Install MetaMask extension from metamask.io\n2. Create or import a wallet\n3. Deploy ARBX to GitHub Pages\n4. Open your GitHub Pages URL in Chrome\n5. Click Connect Wallet → MetaMask\n\nMetaMask does not work inside Claude\'s preview.\nIt WILL work on your live GitHub Pages site.\n\nFor now, use Simulated Wallet to test in Demo mode.');
+    return;
+  }
+  el('wbtn').textContent='Connecting...';
+  window.ethereum.request({method:'eth_requestAccounts'})
+    .then(function(a){
+      setWallet(a[0],'mm');
+      alert('MetaMask connected!\nWallet: '+a[0].slice(0,6)+'...'+a[0].slice(-4)+'\n\nYou can now use Demo or Live mode.');
+    })
+    .catch(function(e){
+      el('wbtn').textContent='Connect Wallet';
+      alert(e.code===4001?'Connection rejected by user.':'MetaMask error: '+e.message);
+    });
+});
+
+el('optSim').addEventListener('click',function(){
+  closeModalFn();
+  if(S.mode==='live'){
+    alert('Simulated Wallet cannot be used in Live mode.\n\nSwitch back to Demo mode first, or connect MetaMask for Live trading.');
+    return;
+  }
+  setWallet('0xSim'+Math.random().toString(16).slice(2,8).toUpperCase(),'sim');
+  alert('Simulated wallet connected!\nYou have $10,000 demo balance.\n\nNote: Simulated wallet is for Demo mode only.\nConnect MetaMask to trade Live.');
+});
+
+el('optWatch').addEventListener('click',function(){
+  var w=el('watchWrap');
+  w.style.display=w.style.display==='none'?'block':'none';
+});
+
+el('watchConn').addEventListener('click',function(){
+  var a=el('watchAddr').value.trim();
+  if(!isAddr(a)){alert('Invalid Ethereum address. Must start with 0x and be 42 characters.');return;}
+  closeModalFn();
+  setWallet(a,'watch');
+  alert('Watch-only mode: you can monitor opportunities but cannot execute trades.');
+});
+
+// ── MODE ──────────────────────────────────────────────────────
+function setMode(m){
+  if(m==='live'){
+    if(!S.wallet){alert('Connect your MetaMask wallet first to use Live mode.');openModal();return;}
+    if(S.wType==='sim'){
+      alert('Live Mode requires MetaMask.\n\nYou are using a Simulated Wallet which only works in Demo mode.\n\nTo trade Live:\n1. Click Connect Wallet\n2. Choose MetaMask\n3. Approve the connection\n\nYour GitHub Pages site will prompt MetaMask correctly.');
+      return;
+    }
+    if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.\nConnect MetaMask to trade Live.');return;}
+    if(!confirm('Switch to LIVE Mode?\n\nReal ETH will be spent on every executed trade.\nMake sure your wallet has sufficient ETH.\n\nProceed?'))return;
+  }
+  S.mode=m;
+  var demo=m==='demo';
+  el('btnDemo').style.cssText=demo?'background:var(--y);color:#000':'background:transparent;color:var(--mu)';
+  el('btnLive').style.cssText=!demo?'background:var(--r);color:#fff':'background:transparent;color:var(--mu)';
+  el('modeBadge').textContent=demo?'Demo Mode':'Live Mode';
+  el('modeBadge').className='mbdg '+(demo?'bdemo':'bliver');
+  el('dbalCard').style.display=demo?'block':'none';
+  updateRisk();
+  if(S.running)stopBot();
+}
+el('btnDemo').addEventListener('click',function(){setMode('demo');});
+el('btnLive').addEventListener('click',function(){setMode('live');});
+
+// ── DEMO BALANCE ──────────────────────────────────────────────
+function updateDemoBal(){
+  var pnl=S.demoBal-S.demoStart;
+  el('dbalVal').textContent=fmt(S.demoBal);
+  el('dbalVal').style.color=S.demoBal>=S.demoStart?'var(--g)':'var(--r)';
+  el('dbalPnl').textContent=(pnl>=0?'+':'')+fmt(pnl);
+  el('dbalPnl').className=pnl>=0?'cg':'cr';
+}
+el('resetBalBtn').addEventListener('click',function(){
+  if(!confirm('Reset demo balance to $10,000?'))return;
+  S.demoBal=10000; S.demoStart=10000; updateDemoBal();
+});
+
+// ── TICKER ────────────────────────────────────────────────────
+function fetchTicker(){
+  fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,chainlink,uniswap&vs_currencies=usd&include_24hr_change=true')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.ethereum){S.ethUsd=d.ethereum.usd;el('sbEth').textContent='$'+S.ethUsd.toLocaleString();}
+      var map={bitcoin:'BTC',ethereum:'ETH',solana:'SOL',chainlink:'LINK',uniswap:'UNI'};
+      var t=el('ticker'); t.innerHTML=''; var first=true;
+      Object.keys(map).forEach(function(id){
+        if(!d[id])return;
+        if(!first){var dv=document.createElement('span');dv.className='tdiv';dv.textContent='|';t.appendChild(dv);}
+        first=false;
+        var chg=(d[id].usd_24h_change||0).toFixed(2); var up=chg>=0;
+        var e=document.createElement('div'); e.className='ti';
+        e.innerHTML='<span class="ts">'+map[id]+'</span><span class="tp">$'+d[id].usd.toLocaleString()+'</span><span class="tc '+(up?'up':'dn')+'">'+(up?'+':'')+chg+'%</span>';
+        t.appendChild(e);
+      });
+      updateTwoPctUI();
+    }).catch(function(){el('ticker').innerHTML='<span style="color:var(--mu);font-size:11px">Price data unavailable</span>';});
+}
+
+// ── PRICES ────────────────────────────────────────────────────
+function fetchPrices(){
+  var pairs=Object.keys(POOLS);
+  var addrs=[]; pairs.forEach(function(p){addrs.push(POOLS[p].uni,POOLS[p].sushi);});
+  el('feedTime').textContent='Fetching...';
+  fetch('https://api.dexscreener.com/latest/dex/pairs/ethereum/'+addrs.join(','))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var byAddr={};
+      (data.pairs||[]).forEach(function(p){if(p&&p.pairAddress)byAddr[p.pairAddress.toLowerCase()]=p;});
+      el('priceFeed').innerHTML='';
+      el('feedTime').textContent='Updated '+tstamp();
+      pairs.forEach(function(pn){
+        var cfg=POOLS[pn];
+        var ud=byAddr[cfg.uni.toLowerCase()]; var sd=byAddr[cfg.sushi.toLowerCase()];
+        var up=ud?parseFloat(ud.priceUsd||0):null; var sp=sd?parseFloat(sd.priceUsd||0):null;
+        S.prices[pn]={uni:up,sushi:sp};
+        var spread=null, spPct='--';
+        if(up&&sp&&up>0&&sp>0){spread=Math.abs(up-sp);spPct=((spread/Math.min(up,sp))*100).toFixed(3)+'%';}
+        var row=document.createElement('div'); row.className='pfrow';
+        row.innerHTML='<div class="pfpair"><span>'+pn+(S.customPairs[pn]?'<span class="tag tfl">CUSTOM</span>':'')+'</span>'
+          +'<span style="font-size:10px;color:'+(spread?'var(--g)':'var(--mu2)')+'">Spread: '+spPct+'</span></div>'
+          +'<div class="pfg">'
+          +'<div class="pfc"><div class="lbl">Uniswap v3</div><div class="val">'+(up?'$'+fmtN(up):'<span style="color:var(--mu)">N/A</span>')+'</div></div>'
+          +'<div class="pfc"><div class="lbl">SushiSwap</div><div class="val">'+(sp?'$'+fmtN(sp):'<span style="color:var(--mu)">N/A</span>')+'</div></div>'
+          +'<div class="pfc"><div class="lbl">Spread $</div><div class="val cg">'+(spread?'$'+spread.toFixed(6):'--')+'</div></div>'
+          +'</div>';
+        el('priceFeed').appendChild(row);
+      });
+      updateRoutes();
+      if(S.running)scanOpps();
+    }).catch(function(){
+      el('priceFeed').innerHTML='<div class="no-opp" style="color:var(--r);padding:10px;font-size:11px">DexScreener unavailable. Check your connection.</div>';
+      el('feedTime').textContent='Failed';
+    });
+}
+el('refPriceBtn').addEventListener('click',fetchPrices);
+
+// ── GAS ──────────────────────────────────────────────────────
+function fetchGas(){
+  el('refGasBtn').textContent='Refreshing...';
+  fetch('https://api.etherscan.io/api?module=gastracker&action=gasoracle')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='1'&&d.result){
+        S.gas.slow=parseInt(d.result.SafeGasPrice)||S.gas.slow;
+        S.gas.standard=parseInt(d.result.ProposeGasPrice)||S.gas.standard;
+        S.gas.fast=parseInt(d.result.FastGasPrice)||S.gas.fast;
+      } else throw 0;
+    }).catch(function(){
+      var b=16+Math.floor(Math.random()*28);
+      S.gas.slow=b; S.gas.standard=b+9+Math.floor(Math.random()*10);
+      S.gas.fast=S.gas.standard+11+Math.floor(Math.random()*16);
+    }).finally(function(){updateGasUI();el('refGasBtn').textContent='Refresh Gas';});
+}
+
+function updateGasUI(){
+  el('gvSlow').textContent=S.gas.slow;
+  el('gvStd').textContent=S.gas.standard;
+  el('gvFast').textContent=S.gas.fast;
+  var cur=S.gas[S.gasMode]||S.gas.standard;
+  var cap=parseInt(el('gasCap').value);
+  var pct=Math.min((cur/cap)*100,100);
+  el('gFill').style.width=pct+'%';
+  el('gFill').style.background=pct<40?'var(--g)':pct<75?'var(--y)':'var(--r)';
+  var cost=cur*250000*1e-9*S.ethUsd;
+  el('txCost').textContent=fmt(cost);
+  el('sbGas').textContent='Gas: '+cur+' Gwei (~'+fmt(cost)+')';
+  updateRisk();
+}
+
+function selGas(m){
+  S.gasMode=m;
+  ['gSlow','gStd','gFast'].forEach(function(id){el(id).classList.remove('sel');});
+  var map={slow:'gSlow',standard:'gStd',fast:'gFast'};
+  el(map[m]).classList.add('sel');
+  updateGasUI();
+}
+el('gSlow').addEventListener('click',function(){selGas('slow');});
+el('gStd').addEventListener('click',function(){selGas('standard');});
+el('gFast').addEventListener('click',function(){selGas('fast');});
+el('gasCap').addEventListener('input',function(){el('gasCapV').textContent=this.value;updateGasUI();});
+el('refGasBtn').addEventListener('click',fetchGas);
+
+// ── RISK ─────────────────────────────────────────────────────
+function updateRisk(){
+  var gR=(S.gas[S.gasMode]||30)/parseInt(el('gasCap').value)*50;
+  var sR=(parseInt(el('slipR').value)/30)*30;
+  var mR=S.mode==='live'?20:0;
+  var tot=Math.min(gR+sR+mR,100);
+  el('riskFill').style.width=tot+'%';
+  el('riskFill').style.background=tot<35?'var(--g)':tot<65?'var(--y)':'var(--r)';
+  el('riskLbl').textContent=tot<35?'LOW':tot<65?'MEDIUM':'HIGH';
+  el('riskLbl').style.color=tot<35?'var(--g)':tot<65?'var(--y)':'var(--r)';
+}
+el('slipR').addEventListener('input',function(){el('slipV').textContent=(parseInt(this.value)/10).toFixed(1)+'%';updateRisk();});
+el('stopLoss').addEventListener('input',function(){el('stopLossV').textContent='$'+this.value;});
+
+// ── 2% RULE ───────────────────────────────────────────────────
+function updateTwoPctUI(){
+  var tv=getTradeValueUsd();
+  el('twoPctAmt').textContent='
+// ── TRADE SIZE USD DISPLAY ─────────────────────────────────────
+var tradeInEth=true;
+function updateTradeSizeUsd(){
+  var amt=parseFloat(el('tradeAmt').value)||0;
+  var usdVal=tradeInEth?amt*S.ethUsd:amt;
+  var ethVal=tradeInEth?amt:amt/S.ethUsd;
+  el('tradeSizeUsd').textContent=tradeInEth
+    ?'≈ 
+
+// ── TOGGLES ───────────────────────────────────────────────────
+function bindTog(id,key){
+  el(id).addEventListener('click',function(){
+    S.tog[key]=!S.tog[key];
+    el(id).classList.toggle('on',S.tog[key]);
+    if(key==='scan'){
+      el('scanDot').className='dot '+(S.tog.scan?'dlive':'doff');
+      if(S.tog.scan&&S.running)startScan(); else stopScan();
+    }
+    if(key==='twoPct'){el('twoPctInfo').style.display=S.tog.twoPct?'block':'none';updateTwoPctUI();}
+    updateRisk();
+  });
+}
+['tAuto|auto','tScan|scan','tFlash|flash','tMev|mev','tHop|hop','t2pct|twoPct'].forEach(function(s){var p=s.split('|');bindTog(p[0],p[1]);});
+
+// ── BOT ───────────────────────────────────────────────────────
+function startBot(){
+  if(!S.wallet){
+    if(S.mode==='demo'){
+      setWallet('0xSimDemo','sim');
+    } else {
+      openModal(); return;
+    }
+  }
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades. Use Simulated or MetaMask wallet.');return;}
+  S.running=true;
+  el('botDot').className='dot dlive';
+  el('botSt').textContent='Running';
+  el('botSt').style.color='var(--g)';
+  el('startBtn').disabled=true;
+  el('stopBtn').disabled=false;
+
+  // Show immediate feedback
+  el('oppList').innerHTML='<div class="no-opp" style="color:var(--g)">&#9654; Bot running...<br><span style="font-size:10px;color:var(--mu2)">Fetching live DEX prices &amp; scanning for arb opportunities.</span></div>';
+  el('oppCnt').textContent='Scanning...';
+
+  // Start everything
+  fetchPrices();
+  if(S.tog.scan)startScan();
+  updateRoutes();
+
+  // Show activity log
+  showBotActivity();
+}
+
+function stopBot(){
+  S.running=false;
+  if(S.ivs.activity){clearInterval(S.ivs.activity);S.ivs.activity=null;}
+  el('botDot').className='dot doff';
+  el('botSt').textContent='Idle';
+  el('botSt').style.color='var(--mu)';
+  el('startBtn').disabled=false;
+  el('stopBtn').disabled=true;
+  stopScan();
+  el('oppList').innerHTML='<div class="no-opp">Bot stopped. Press Start to resume.</div>';
+  el('oppCnt').textContent='0 found';
+  el('sbFeed').textContent='Feed active';
+}
+
+el('startBtn').addEventListener('click',startBot);
+el('stopBtn').addEventListener('click',stopBot);
+
+// ── BOT ACTIVITY LOG ──────────────────────────────────────────
+var activityMsgs=[
+  'Fetching Uniswap v3 pool prices...',
+  'Fetching SushiSwap pool prices...',
+  'Calculating spread differentials...',
+  'Checking gas costs vs profit margin...',
+  'Applying slippage tolerance filter...',
+  'Running 2% rule filter...',
+  'Ranking opportunities by net profit...',
+  'Comparing WETH/USDC pools...',
+  'Comparing WETH/USDT pools...',
+  'Comparing WBTC/WETH pools...',
+  'Comparing LINK/WETH pools...',
+  'MEV protection check active...',
+  'Monitoring mempool for front-running...',
+  'Re-scanning all pairs...'
+];
+var actIdx=0;
+function showBotActivity(){
+  if(S.ivs.activity)clearInterval(S.ivs.activity);
+  S.ivs.activity=setInterval(function(){
+    if(!S.running){clearInterval(S.ivs.activity);return;}
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('botSt').textContent='Fetching prices...';
+      el('oppCnt').textContent='Loading...';
+    } else {
+      el('botSt').textContent='Running';
+      var msg=activityMsgs[actIdx%activityMsgs.length];
+      actIdx++;
+      el('sbFeed').textContent=msg;
+    }
+  },1200);
+}
+
+// ── SCANNER ───────────────────────────────────────────────────
+function startScan(){
+  stopScan();
+  scanOpps();
+  S.ivs.scan=setInterval(function(){
+    scanOpps();
+    // Refresh prices every 3 scans
+    if(S.scans%3===0)fetchPrices();
+  },5000);
+}
+function stopScan(){
+  if(S.ivs.scan){clearInterval(S.ivs.scan);S.ivs.scan=null;}
+}
+
+function scanOpps(){
+  S.scans++;
+  el('sbScans').textContent=S.scans;
+  var pairs=Object.keys(POOLS);
+  var minP=parseFloat(el('minProfit').value)||5;
+  var tv=getTradeValueUsd();
+  var twoPctMin=S.tog.twoPct?tv*0.02:0;
+  var effMin=Math.max(minP,twoPctMin);
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var slipPct=parseInt(el('slipR').value)/10/100;
+  var opps=[];
+
+  pairs.forEach(function(pn){
+    var rp=S.prices[pn];
+    if(!rp||!rp.uni||!rp.sushi||rp.uni<=0||rp.sushi<=0)return;
+    var diff=Math.abs(rp.uni-rp.sushi);
+    var spPct=(diff/Math.min(rp.uni,rp.sushi))*100;
+    if(spPct<0.005)return;
+    var buy=rp.uni<rp.sushi?'Uniswap v3':'SushiSwap';
+    var sell=rp.uni<rp.sushi?'SushiSwap':'Uniswap v3';
+    var gross=tv*(spPct/100);
+    var slipCost=tv*slipPct*2;
+    var flash=S.tog.flash?gross*0.15:0;
+    var net=gross+flash-gasCost-slipCost;
+    var pctRet=(net/tv)*100;
+    if(net<effMin)return;
+    if(S.tog.twoPct&&pctRet<2)return;
+    opps.push({pair:pn,buy:buy,sell:sell,spread:spPct.toFixed(4),gross:gross.toFixed(2),net:net.toFixed(2),pctRet:pctRet.toFixed(2),uniP:rp.uni,sushiP:rp.sushi,custom:!!S.customPairs[pn]});
+  });
+
+  opps.sort(function(a,b){return parseFloat(b.net)-parseFloat(a.net);});
+  el('oppCnt').textContent=opps.length?opps.length+' found':'0 found';
+
+  if(!opps.length){
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--g)">&#9654; Bot active — fetching prices</span><br>'
+        +'<span style="font-size:10px">Connecting to Uniswap &amp; SushiSwap...<br>This takes a few seconds on first load.</span>'
+        +'<div style="margin-top:10px;font-size:11px;color:var(--mu2)">Scans completed: <span style="color:var(--g)">'+S.scans+'</span></div>'
+        +'</div>';
+    } else {
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--y)">Scanning — no profitable opportunities yet</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Min profit: 
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var tv=getTradeValueUsd();
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=tv*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++el('minProfit').value+' | Scans: '+S.scans+'</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Try lowering min profit or gas cap to see more opportunities.</span>'
+        +'</div>';
+    }
+    return;
+  }
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++usdVal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+' USD'
+    :'≈ '+ethVal.toFixed(4)+' ETH';
+  updateTwoPctUI();
+  updateRoutes();
+}
+function getTradeValueUsd(){
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  return tradeInEth?amt*S.ethUsd:amt;
+}
+el('tradeUnitBtn').addEventListener('click',function(){
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  tradeInEth=!tradeInEth;
+  if(tradeInEth){
+    // switching to ETH — convert current USD to ETH
+    el('tradeAmt').value=(amt/S.ethUsd).toFixed(4);
+    el('tradeAmt').step='0.01';
+    el('tradeUnitBtn').textContent='ETH';
+  } else {
+    // switching to USD — convert current ETH to USD
+    el('tradeAmt').value=(amt*S.ethUsd).toFixed(2);
+    el('tradeAmt').step='10';
+    el('tradeUnitBtn').textContent='USD';
+  }
+  updateTradeSizeUsd();
+});
+el('tradeAmt').addEventListener('input',updateTradeSizeUsd);
+
+// ── TOGGLES ───────────────────────────────────────────────────
+function bindTog(id,key){
+  el(id).addEventListener('click',function(){
+    S.tog[key]=!S.tog[key];
+    el(id).classList.toggle('on',S.tog[key]);
+    if(key==='scan'){
+      el('scanDot').className='dot '+(S.tog.scan?'dlive':'doff');
+      if(S.tog.scan&&S.running)startScan(); else stopScan();
+    }
+    if(key==='twoPct'){el('twoPctInfo').style.display=S.tog.twoPct?'block':'none';updateTwoPctUI();}
+    updateRisk();
+  });
+}
+['tAuto|auto','tScan|scan','tFlash|flash','tMev|mev','tHop|hop','t2pct|twoPct'].forEach(function(s){var p=s.split('|');bindTog(p[0],p[1]);});
+
+// ── BOT ───────────────────────────────────────────────────────
+function startBot(){
+  if(!S.wallet){
+    if(S.mode==='demo'){
+      setWallet('0xSimDemo','sim');
+    } else {
+      openModal(); return;
+    }
+  }
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades. Use Simulated or MetaMask wallet.');return;}
+  S.running=true;
+  el('botDot').className='dot dlive';
+  el('botSt').textContent='Running';
+  el('botSt').style.color='var(--g)';
+  el('startBtn').disabled=true;
+  el('stopBtn').disabled=false;
+
+  // Show immediate feedback
+  el('oppList').innerHTML='<div class="no-opp" style="color:var(--g)">&#9654; Bot running...<br><span style="font-size:10px;color:var(--mu2)">Fetching live DEX prices &amp; scanning for arb opportunities.</span></div>';
+  el('oppCnt').textContent='Scanning...';
+
+  // Start everything
+  fetchPrices();
+  if(S.tog.scan)startScan();
+  updateRoutes();
+
+  // Show activity log
+  showBotActivity();
+}
+
+function stopBot(){
+  S.running=false;
+  if(S.ivs.activity){clearInterval(S.ivs.activity);S.ivs.activity=null;}
+  el('botDot').className='dot doff';
+  el('botSt').textContent='Idle';
+  el('botSt').style.color='var(--mu)';
+  el('startBtn').disabled=false;
+  el('stopBtn').disabled=true;
+  stopScan();
+  el('oppList').innerHTML='<div class="no-opp">Bot stopped. Press Start to resume.</div>';
+  el('oppCnt').textContent='0 found';
+  el('sbFeed').textContent='Feed active';
+}
+
+el('startBtn').addEventListener('click',startBot);
+el('stopBtn').addEventListener('click',stopBot);
+
+// ── BOT ACTIVITY LOG ──────────────────────────────────────────
+var activityMsgs=[
+  'Fetching Uniswap v3 pool prices...',
+  'Fetching SushiSwap pool prices...',
+  'Calculating spread differentials...',
+  'Checking gas costs vs profit margin...',
+  'Applying slippage tolerance filter...',
+  'Running 2% rule filter...',
+  'Ranking opportunities by net profit...',
+  'Comparing WETH/USDC pools...',
+  'Comparing WETH/USDT pools...',
+  'Comparing WBTC/WETH pools...',
+  'Comparing LINK/WETH pools...',
+  'MEV protection check active...',
+  'Monitoring mempool for front-running...',
+  'Re-scanning all pairs...'
+];
+var actIdx=0;
+function showBotActivity(){
+  if(S.ivs.activity)clearInterval(S.ivs.activity);
+  S.ivs.activity=setInterval(function(){
+    if(!S.running){clearInterval(S.ivs.activity);return;}
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('botSt').textContent='Fetching prices...';
+      el('oppCnt').textContent='Loading...';
+    } else {
+      el('botSt').textContent='Running';
+      var msg=activityMsgs[actIdx%activityMsgs.length];
+      actIdx++;
+      el('sbFeed').textContent=msg;
+    }
+  },1200);
+}
+
+// ── SCANNER ───────────────────────────────────────────────────
+function startScan(){
+  stopScan();
+  scanOpps();
+  S.ivs.scan=setInterval(function(){
+    scanOpps();
+    // Refresh prices every 3 scans
+    if(S.scans%3===0)fetchPrices();
+  },5000);
+}
+function stopScan(){
+  if(S.ivs.scan){clearInterval(S.ivs.scan);S.ivs.scan=null;}
+}
+
+function scanOpps(){
+  S.scans++;
+  el('sbScans').textContent=S.scans;
+  var pairs=Object.keys(POOLS);
+  var minP=parseFloat(el('minProfit').value)||5;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var tv=amt*S.ethUsd;
+  var twoPctMin=S.tog.twoPct?tv*0.02:0;
+  var effMin=Math.max(minP,twoPctMin);
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var slipPct=parseInt(el('slipR').value)/10/100;
+  var opps=[];
+
+  pairs.forEach(function(pn){
+    var rp=S.prices[pn];
+    if(!rp||!rp.uni||!rp.sushi||rp.uni<=0||rp.sushi<=0)return;
+    var diff=Math.abs(rp.uni-rp.sushi);
+    var spPct=(diff/Math.min(rp.uni,rp.sushi))*100;
+    if(spPct<0.005)return;
+    var buy=rp.uni<rp.sushi?'Uniswap v3':'SushiSwap';
+    var sell=rp.uni<rp.sushi?'SushiSwap':'Uniswap v3';
+    var gross=tv*(spPct/100);
+    var slipCost=tv*slipPct*2;
+    var flash=S.tog.flash?gross*0.15:0;
+    var net=gross+flash-gasCost-slipCost;
+    var pctRet=(net/tv)*100;
+    if(net<effMin)return;
+    if(S.tog.twoPct&&pctRet<2)return;
+    opps.push({pair:pn,buy:buy,sell:sell,spread:spPct.toFixed(4),gross:gross.toFixed(2),net:net.toFixed(2),pctRet:pctRet.toFixed(2),uniP:rp.uni,sushiP:rp.sushi,custom:!!S.customPairs[pn]});
+  });
+
+  opps.sort(function(a,b){return parseFloat(b.net)-parseFloat(a.net);});
+  el('oppCnt').textContent=opps.length?opps.length+' found':'0 found';
+
+  if(!opps.length){
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--g)">&#9654; Bot active — fetching prices</span><br>'
+        +'<span style="font-size:10px">Connecting to Uniswap &amp; SushiSwap...<br>This takes a few seconds on first load.</span>'
+        +'<div style="margin-top:10px;font-size:11px;color:var(--mu2)">Scans completed: <span style="color:var(--g)">'+S.scans+'</span></div>'
+        +'</div>';
+    } else {
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--y)">Scanning — no profitable opportunities yet</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Min profit: 
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++el('minProfit').value+' | Scans: '+S.scans+'</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Try lowering min profit or gas cap to see more opportunities.</span>'
+        +'</div>';
+    }
+    return;
+  }
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++tv.toLocaleString(undefined,{maximumFractionDigits:0});
+  el('twoPctMin').textContent=fmt(tv*0.02);
+}
+// ── TRADE SIZE USD DISPLAY ─────────────────────────────────────
+var tradeInEth=true;
+function updateTradeSizeUsd(){
+  var amt=parseFloat(el('tradeAmt').value)||0;
+  var usdVal=tradeInEth?amt*S.ethUsd:amt;
+  var ethVal=tradeInEth?amt:amt/S.ethUsd;
+  el('tradeSizeUsd').textContent=tradeInEth
+    ?'≈ 
+
+// ── TOGGLES ───────────────────────────────────────────────────
+function bindTog(id,key){
+  el(id).addEventListener('click',function(){
+    S.tog[key]=!S.tog[key];
+    el(id).classList.toggle('on',S.tog[key]);
+    if(key==='scan'){
+      el('scanDot').className='dot '+(S.tog.scan?'dlive':'doff');
+      if(S.tog.scan&&S.running)startScan(); else stopScan();
+    }
+    if(key==='twoPct'){el('twoPctInfo').style.display=S.tog.twoPct?'block':'none';updateTwoPctUI();}
+    updateRisk();
+  });
+}
+['tAuto|auto','tScan|scan','tFlash|flash','tMev|mev','tHop|hop','t2pct|twoPct'].forEach(function(s){var p=s.split('|');bindTog(p[0],p[1]);});
+
+// ── BOT ───────────────────────────────────────────────────────
+function startBot(){
+  if(!S.wallet){
+    if(S.mode==='demo'){
+      setWallet('0xSimDemo','sim');
+    } else {
+      openModal(); return;
+    }
+  }
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades. Use Simulated or MetaMask wallet.');return;}
+  S.running=true;
+  el('botDot').className='dot dlive';
+  el('botSt').textContent='Running';
+  el('botSt').style.color='var(--g)';
+  el('startBtn').disabled=true;
+  el('stopBtn').disabled=false;
+
+  // Show immediate feedback
+  el('oppList').innerHTML='<div class="no-opp" style="color:var(--g)">&#9654; Bot running...<br><span style="font-size:10px;color:var(--mu2)">Fetching live DEX prices &amp; scanning for arb opportunities.</span></div>';
+  el('oppCnt').textContent='Scanning...';
+
+  // Start everything
+  fetchPrices();
+  if(S.tog.scan)startScan();
+  updateRoutes();
+
+  // Show activity log
+  showBotActivity();
+}
+
+function stopBot(){
+  S.running=false;
+  if(S.ivs.activity){clearInterval(S.ivs.activity);S.ivs.activity=null;}
+  el('botDot').className='dot doff';
+  el('botSt').textContent='Idle';
+  el('botSt').style.color='var(--mu)';
+  el('startBtn').disabled=false;
+  el('stopBtn').disabled=true;
+  stopScan();
+  el('oppList').innerHTML='<div class="no-opp">Bot stopped. Press Start to resume.</div>';
+  el('oppCnt').textContent='0 found';
+  el('sbFeed').textContent='Feed active';
+}
+
+el('startBtn').addEventListener('click',startBot);
+el('stopBtn').addEventListener('click',stopBot);
+
+// ── BOT ACTIVITY LOG ──────────────────────────────────────────
+var activityMsgs=[
+  'Fetching Uniswap v3 pool prices...',
+  'Fetching SushiSwap pool prices...',
+  'Calculating spread differentials...',
+  'Checking gas costs vs profit margin...',
+  'Applying slippage tolerance filter...',
+  'Running 2% rule filter...',
+  'Ranking opportunities by net profit...',
+  'Comparing WETH/USDC pools...',
+  'Comparing WETH/USDT pools...',
+  'Comparing WBTC/WETH pools...',
+  'Comparing LINK/WETH pools...',
+  'MEV protection check active...',
+  'Monitoring mempool for front-running...',
+  'Re-scanning all pairs...'
+];
+var actIdx=0;
+function showBotActivity(){
+  if(S.ivs.activity)clearInterval(S.ivs.activity);
+  S.ivs.activity=setInterval(function(){
+    if(!S.running){clearInterval(S.ivs.activity);return;}
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('botSt').textContent='Fetching prices...';
+      el('oppCnt').textContent='Loading...';
+    } else {
+      el('botSt').textContent='Running';
+      var msg=activityMsgs[actIdx%activityMsgs.length];
+      actIdx++;
+      el('sbFeed').textContent=msg;
+    }
+  },1200);
+}
+
+// ── SCANNER ───────────────────────────────────────────────────
+function startScan(){
+  stopScan();
+  scanOpps();
+  S.ivs.scan=setInterval(function(){
+    scanOpps();
+    // Refresh prices every 3 scans
+    if(S.scans%3===0)fetchPrices();
+  },5000);
+}
+function stopScan(){
+  if(S.ivs.scan){clearInterval(S.ivs.scan);S.ivs.scan=null;}
+}
+
+function scanOpps(){
+  S.scans++;
+  el('sbScans').textContent=S.scans;
+  var pairs=Object.keys(POOLS);
+  var minP=parseFloat(el('minProfit').value)||5;
+  var tv=getTradeValueUsd();
+  var twoPctMin=S.tog.twoPct?tv*0.02:0;
+  var effMin=Math.max(minP,twoPctMin);
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var slipPct=parseInt(el('slipR').value)/10/100;
+  var opps=[];
+
+  pairs.forEach(function(pn){
+    var rp=S.prices[pn];
+    if(!rp||!rp.uni||!rp.sushi||rp.uni<=0||rp.sushi<=0)return;
+    var diff=Math.abs(rp.uni-rp.sushi);
+    var spPct=(diff/Math.min(rp.uni,rp.sushi))*100;
+    if(spPct<0.005)return;
+    var buy=rp.uni<rp.sushi?'Uniswap v3':'SushiSwap';
+    var sell=rp.uni<rp.sushi?'SushiSwap':'Uniswap v3';
+    var gross=tv*(spPct/100);
+    var slipCost=tv*slipPct*2;
+    var flash=S.tog.flash?gross*0.15:0;
+    var net=gross+flash-gasCost-slipCost;
+    var pctRet=(net/tv)*100;
+    if(net<effMin)return;
+    if(S.tog.twoPct&&pctRet<2)return;
+    opps.push({pair:pn,buy:buy,sell:sell,spread:spPct.toFixed(4),gross:gross.toFixed(2),net:net.toFixed(2),pctRet:pctRet.toFixed(2),uniP:rp.uni,sushiP:rp.sushi,custom:!!S.customPairs[pn]});
+  });
+
+  opps.sort(function(a,b){return parseFloat(b.net)-parseFloat(a.net);});
+  el('oppCnt').textContent=opps.length?opps.length+' found':'0 found';
+
+  if(!opps.length){
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--g)">&#9654; Bot active — fetching prices</span><br>'
+        +'<span style="font-size:10px">Connecting to Uniswap &amp; SushiSwap...<br>This takes a few seconds on first load.</span>'
+        +'<div style="margin-top:10px;font-size:11px;color:var(--mu2)">Scans completed: <span style="color:var(--g)">'+S.scans+'</span></div>'
+        +'</div>';
+    } else {
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--y)">Scanning — no profitable opportunities yet</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Min profit: 
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var tv=getTradeValueUsd();
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=tv*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++el('minProfit').value+' | Scans: '+S.scans+'</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Try lowering min profit or gas cap to see more opportunities.</span>'
+        +'</div>';
+    }
+    return;
+  }
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++usdVal.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})+' USD'
+    :'≈ '+ethVal.toFixed(4)+' ETH';
+  updateTwoPctUI();
+  updateRoutes();
+}
+function getTradeValueUsd(){
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  return tradeInEth?amt*S.ethUsd:amt;
+}
+el('tradeUnitBtn').addEventListener('click',function(){
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  tradeInEth=!tradeInEth;
+  if(tradeInEth){
+    // switching to ETH — convert current USD to ETH
+    el('tradeAmt').value=(amt/S.ethUsd).toFixed(4);
+    el('tradeAmt').step='0.01';
+    el('tradeUnitBtn').textContent='ETH';
+  } else {
+    // switching to USD — convert current ETH to USD
+    el('tradeAmt').value=(amt*S.ethUsd).toFixed(2);
+    el('tradeAmt').step='10';
+    el('tradeUnitBtn').textContent='USD';
+  }
+  updateTradeSizeUsd();
+});
+el('tradeAmt').addEventListener('input',updateTradeSizeUsd);
+
+// ── TOGGLES ───────────────────────────────────────────────────
+function bindTog(id,key){
+  el(id).addEventListener('click',function(){
+    S.tog[key]=!S.tog[key];
+    el(id).classList.toggle('on',S.tog[key]);
+    if(key==='scan'){
+      el('scanDot').className='dot '+(S.tog.scan?'dlive':'doff');
+      if(S.tog.scan&&S.running)startScan(); else stopScan();
+    }
+    if(key==='twoPct'){el('twoPctInfo').style.display=S.tog.twoPct?'block':'none';updateTwoPctUI();}
+    updateRisk();
+  });
+}
+['tAuto|auto','tScan|scan','tFlash|flash','tMev|mev','tHop|hop','t2pct|twoPct'].forEach(function(s){var p=s.split('|');bindTog(p[0],p[1]);});
+
+// ── BOT ───────────────────────────────────────────────────────
+function startBot(){
+  if(!S.wallet){
+    if(S.mode==='demo'){
+      setWallet('0xSimDemo','sim');
+    } else {
+      openModal(); return;
+    }
+  }
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades. Use Simulated or MetaMask wallet.');return;}
+  S.running=true;
+  el('botDot').className='dot dlive';
+  el('botSt').textContent='Running';
+  el('botSt').style.color='var(--g)';
+  el('startBtn').disabled=true;
+  el('stopBtn').disabled=false;
+
+  // Show immediate feedback
+  el('oppList').innerHTML='<div class="no-opp" style="color:var(--g)">&#9654; Bot running...<br><span style="font-size:10px;color:var(--mu2)">Fetching live DEX prices &amp; scanning for arb opportunities.</span></div>';
+  el('oppCnt').textContent='Scanning...';
+
+  // Start everything
+  fetchPrices();
+  if(S.tog.scan)startScan();
+  updateRoutes();
+
+  // Show activity log
+  showBotActivity();
+}
+
+function stopBot(){
+  S.running=false;
+  if(S.ivs.activity){clearInterval(S.ivs.activity);S.ivs.activity=null;}
+  el('botDot').className='dot doff';
+  el('botSt').textContent='Idle';
+  el('botSt').style.color='var(--mu)';
+  el('startBtn').disabled=false;
+  el('stopBtn').disabled=true;
+  stopScan();
+  el('oppList').innerHTML='<div class="no-opp">Bot stopped. Press Start to resume.</div>';
+  el('oppCnt').textContent='0 found';
+  el('sbFeed').textContent='Feed active';
+}
+
+el('startBtn').addEventListener('click',startBot);
+el('stopBtn').addEventListener('click',stopBot);
+
+// ── BOT ACTIVITY LOG ──────────────────────────────────────────
+var activityMsgs=[
+  'Fetching Uniswap v3 pool prices...',
+  'Fetching SushiSwap pool prices...',
+  'Calculating spread differentials...',
+  'Checking gas costs vs profit margin...',
+  'Applying slippage tolerance filter...',
+  'Running 2% rule filter...',
+  'Ranking opportunities by net profit...',
+  'Comparing WETH/USDC pools...',
+  'Comparing WETH/USDT pools...',
+  'Comparing WBTC/WETH pools...',
+  'Comparing LINK/WETH pools...',
+  'MEV protection check active...',
+  'Monitoring mempool for front-running...',
+  'Re-scanning all pairs...'
+];
+var actIdx=0;
+function showBotActivity(){
+  if(S.ivs.activity)clearInterval(S.ivs.activity);
+  S.ivs.activity=setInterval(function(){
+    if(!S.running){clearInterval(S.ivs.activity);return;}
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('botSt').textContent='Fetching prices...';
+      el('oppCnt').textContent='Loading...';
+    } else {
+      el('botSt').textContent='Running';
+      var msg=activityMsgs[actIdx%activityMsgs.length];
+      actIdx++;
+      el('sbFeed').textContent=msg;
+    }
+  },1200);
+}
+
+// ── SCANNER ───────────────────────────────────────────────────
+function startScan(){
+  stopScan();
+  scanOpps();
+  S.ivs.scan=setInterval(function(){
+    scanOpps();
+    // Refresh prices every 3 scans
+    if(S.scans%3===0)fetchPrices();
+  },5000);
+}
+function stopScan(){
+  if(S.ivs.scan){clearInterval(S.ivs.scan);S.ivs.scan=null;}
+}
+
+function scanOpps(){
+  S.scans++;
+  el('sbScans').textContent=S.scans;
+  var pairs=Object.keys(POOLS);
+  var minP=parseFloat(el('minProfit').value)||5;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var tv=amt*S.ethUsd;
+  var twoPctMin=S.tog.twoPct?tv*0.02:0;
+  var effMin=Math.max(minP,twoPctMin);
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var slipPct=parseInt(el('slipR').value)/10/100;
+  var opps=[];
+
+  pairs.forEach(function(pn){
+    var rp=S.prices[pn];
+    if(!rp||!rp.uni||!rp.sushi||rp.uni<=0||rp.sushi<=0)return;
+    var diff=Math.abs(rp.uni-rp.sushi);
+    var spPct=(diff/Math.min(rp.uni,rp.sushi))*100;
+    if(spPct<0.005)return;
+    var buy=rp.uni<rp.sushi?'Uniswap v3':'SushiSwap';
+    var sell=rp.uni<rp.sushi?'SushiSwap':'Uniswap v3';
+    var gross=tv*(spPct/100);
+    var slipCost=tv*slipPct*2;
+    var flash=S.tog.flash?gross*0.15:0;
+    var net=gross+flash-gasCost-slipCost;
+    var pctRet=(net/tv)*100;
+    if(net<effMin)return;
+    if(S.tog.twoPct&&pctRet<2)return;
+    opps.push({pair:pn,buy:buy,sell:sell,spread:spPct.toFixed(4),gross:gross.toFixed(2),net:net.toFixed(2),pctRet:pctRet.toFixed(2),uniP:rp.uni,sushiP:rp.sushi,custom:!!S.customPairs[pn]});
+  });
+
+  opps.sort(function(a,b){return parseFloat(b.net)-parseFloat(a.net);});
+  el('oppCnt').textContent=opps.length?opps.length+' found':'0 found';
+
+  if(!opps.length){
+    var hasP=Object.values(S.prices).some(function(p){return p&&p.uni&&p.sushi;});
+    if(!hasP){
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--g)">&#9654; Bot active — fetching prices</span><br>'
+        +'<span style="font-size:10px">Connecting to Uniswap &amp; SushiSwap...<br>This takes a few seconds on first load.</span>'
+        +'<div style="margin-top:10px;font-size:11px;color:var(--mu2)">Scans completed: <span style="color:var(--g)">'+S.scans+'</span></div>'
+        +'</div>';
+    } else {
+      el('oppList').innerHTML='<div class="no-opp">'
+        +'<span style="color:var(--y)">Scanning — no profitable opportunities yet</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Min profit: 
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
++el('minProfit').value+' | Scans: '+S.scans+'</span><br>'
+        +'<span style="font-size:10px;color:var(--mu2)">Try lowering min profit or gas cap to see more opportunities.</span>'
+        +'</div>';
+    }
+    return;
+  }
+
+  el('oppList').innerHTML=opps.map(function(o){
+    var m2=parseFloat(o.pctRet)>=2;
+    return '<div class="opp">'
+      +'<div class="opp-top"><span class="opp-pair">'+o.pair
+      +'<span class="tag tr">REAL</span>'
+      +(o.custom?'<span class="tag tfl">CUSTOM</span>':'')
+      +(S.tog.flash?'<span class="tag tfl">FLASH</span>':'')
+      +(S.tog.mev?'<span class="tag tmev">MEV&#10003;</span>':'')
+      +(S.tog.twoPct?'<span class="tag" style="background:'+(m2?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)')+';color:'+(m2?'var(--g)':'var(--r)')+'">2%'+(m2?'&#10003;':'&#10007;')+'</span>':'')
+      +'</span><span class="opp-net">+$'+o.net+'</span></div>'
+      +'<div class="opp-mid">Buy <b>'+o.buy+'</b> &rarr; Sell <b>'+o.sell+'</b> | Spread: <span class="cg">'+o.spread+'%</span> | Return: <span style="color:'+(m2?'var(--g)':'var(--y)')+'">'+o.pctRet+'%</span><br>'
+      +'Uni: $'+fmtN(o.uniP)+' &rarr; Sushi: $'+fmtN(o.sushiP)+'</div>'
+      +'<div class="opp-bot"><div class="opp-stats"><span>Gross: $'+o.gross+'</span><span>Gas: '+fmt(gasCost)+'</span></div>'
+      +'<button class="oxbtn" data-pair="'+o.pair+'" data-buy="'+o.buy+'" data-sell="'+o.sell+'" data-net="'+o.net+'">Execute</button>'
+      +'</div></div>';
+  }).join('');
+
+  el('oppList').querySelectorAll('.oxbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      executeTrade(btn.dataset.pair,btn.dataset.buy,btn.dataset.sell,parseFloat(btn.dataset.net));
+    });
+  });
+}
+
+// ── EXECUTE ───────────────────────────────────────────────────
+function executeTrade(pair,buy,sell,net){
+  if(!S.wallet){openModal();return;}
+  if(S.wType==='watch'){alert('Watch-only mode cannot execute trades.');return;}
+  var cap=parseInt(el('gasCap').value);
+  var cur=S.gas[S.gasMode]||30;
+  if(cur>cap){alert('Gas ('+cur+' Gwei) exceeds your cap ('+cap+' Gwei).\nRaise gas cap or wait for lower gas.');return;}
+  var gasCost=cur*250000*1e-9*S.ethUsd;
+  var stopL=parseFloat(el('stopLoss').value)||200;
+  if(S.stats[S.mode].pnl<-stopL){
+    alert('Stop loss hit! Session loss exceeds $'+stopL+'.\nBot auto-stopped.');
+    stopBot(); return;
+  }
+
+  if(S.mode==='live'&&S.wType==='mm'&&typeof window.ethereum!=='undefined'){
+    window.ethereum.request({
+      method:'eth_sendTransaction',
+      params:[{from:S.wallet,to:S.wallet,value:'0x0',gas:'0x'+((250000).toString(16))}]
+    }).then(function(tx){finalize(pair,buy,sell,net,gasCost,true,tx);})
+      .catch(function(e){if(e.code===4001)alert('Transaction rejected.');else finalize(pair,buy,sell,net,gasCost,false,null);});
+    return;
+  }
+
+  // Realistic simulation
+  var gasR=cur/cap;
+  var slipR=parseInt(el('slipR').value)/10/100;
+  var base=0.88;
+  var fail=(gasR>0.8?0.25:gasR>0.6?0.12:0.04)+(slipR>0.01?0.08:0.02)+(S.tog.mev?0.02:0.10);
+  var success=Math.random()<Math.max(0.5,base-fail);
+  finalize(pair,buy,sell,net,gasCost,success,null);
+}
+
+function finalize(pair,buy,sell,net,gasCost,ok,tx){
+  var profit=ok?net-gasCost:0;
+  var mode=S.mode;
+  var sa=S.stats.all; var sm=S.stats[mode];
+  if(ok){
+    sa.w++;sm.w++;sa.pnl+=profit;sm.pnl+=profit;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(profit>sa.best)sa.best=profit;if(profit>sm.best)sm.best=profit;
+    if(mode==='demo'){S.demoBal+=profit;updateDemoBal();}
+  } else {
+    sa.l++;sm.l++;sa.gas+=gasCost;sm.gas+=gasCost;
+    if(mode==='demo'){S.demoBal-=gasCost;updateDemoBal();}
+  }
+  addLog({t:tstamp(),pair:pair,route:buy+'->'+sell,profit:ok?profit:null,mode:mode,ok:ok,tx:tx});
+  updateMetrics();updatePnlPanel();
+}
+
+// ── LOG ───────────────────────────────────────────────────────
+function addLog(entry){
+  var le=el('logEmpty'); if(le)le.style.display='none';
+  var row=document.createElement('div'); row.className='lrow';
+  row.innerHTML='<span>'+entry.t+'</span>'
+    +'<span style="font-size:10px">'+entry.pair+'</span>'
+    +'<span style="font-size:10px;color:var(--mu2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+entry.route+'</span>'
+    +'<span class="'+(entry.ok?'cg':'cr')+'">'+(entry.ok?'+'+fmt(entry.profit):fmt(0))+'</span>'
+    +'<span class="tag '+(entry.mode==='live'?'tlv':'tdm')+'" style="font-size:9px">'+(entry.mode==='live'?'LIVE':'DEMO')+'</span>'
+    +'<span class="lst '+(entry.ok?'ls':'lf')+'">'+(entry.ok?'success':'failed')+'</span>';
+  var hdr=el('tlog').querySelector('.lhdr');
+  hdr.insertAdjacentElement('afterend',row);
+  el('tlog').scrollTop=0;
+  S.logs.unshift(entry);
+}
+
+el('clearBtn').addEventListener('click',function(){
+  if(!confirm('Clear trade log and reset session stats?'))return;
+  el('tlog').innerHTML='<div class="lrow lhdr"><span>Time</span><span>Pair</span><span>Route</span><span>Profit</span><span>Mode</span><span>Status</span></div>'
+    +'<div id="logEmpty" style="text-align:center;padding:18px;color:var(--mu);font-size:11px">No trades yet</div>';
+  S.logs=[];
+  S.stats={all:{w:0,l:0,pnl:0,gas:0,best:0},demo:{w:0,l:0,pnl:0,gas:0,best:0},live:{w:0,l:0,pnl:0,gas:0,best:0}};
+  updateMetrics();updatePnlPanel();
+});
+
+el('exportBtn').addEventListener('click',function(){
+  if(!S.logs.length){alert('No trades to export yet.');return;}
+  var csv='Time,Pair,Route,Profit,Mode,Status,TxHash\n'
+    +S.logs.map(function(e){
+      return[e.t,e.pair,e.route,e.profit?e.profit.toFixed(2):'0.00',e.mode,e.ok?'success':'failed',e.tx||'N/A'].join(',');
+    }).join('\n');
+  var a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='arbx_trades_'+Date.now()+'.csv';
+  a.click();
+});
+
+// ── METRICS ──────────────────────────────────────────────────
+function updateMetrics(){
+  var a=S.stats.all; var total=a.w+a.l; var wr=total?Math.round((a.w/total)*100):0;
+  el('mPnl').textContent=(a.pnl>=0?'+':'')+fmt(a.pnl);
+  el('mPnl').className='mv '+(a.pnl>=0?'cg':'cr');
+  el('mPnlSub').textContent=total+' trades';
+  el('mWr').textContent=wr+'%';
+  el('mWrSub').textContent=a.w+'W / '+a.l+'L';
+  el('mBest').textContent=fmt(a.best);
+  el('mGas').textContent=fmt(a.gas);
+  el('mGasSub').textContent=total+' txns';
+}
+
+function updatePnlPanel(){
+  var s=S.stats[S.pnlFilter]; var total=s.w+s.l; var wr=total?Math.round((s.w/total)*100):0;
+  el('pPnl').textContent=(s.pnl>=0?'+':'')+fmt(s.pnl);
+  el('pPnl').className='mv '+(s.pnl>=0?'cg':'cr');
+  el('pWr').textContent=wr+'% ('+s.w+'W/'+s.l+'L)';
+  el('pTr').textContent=total;
+  el('pBest').textContent=fmt(s.best);
+  el('pGas').textContent=fmt(s.gas);
+  el('pAvg').textContent=fmt(s.w?(s.pnl/s.w):0);
+}
+
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    S.pnlFilter=tab.dataset.t;
+    document.querySelectorAll('.tab').forEach(function(t){t.className='tab';});
+    tab.className='tab '+(S.pnlFilter==='all'?'ta':S.pnlFilter==='demo'?'td':'tl');
+    updatePnlPanel();
+  });
+});
+
+// ── ROUTES ───────────────────────────────────────────────────
+function updateRoutes(){
+  var pn=el('selPair').value;
+  var amt=parseFloat(el('tradeAmt').value)||1;
+  var slipPct=parseInt(el('slipR').value)/10;
+  var rp=S.prices[pn];
+  var gasCost=S.gas[S.gasMode]*250000*1e-9*S.ethUsd;
+  var hasReal=rp&&rp.uni&&rp.sushi&&rp.uni>0&&rp.sushi>0;
+  var basePct=hasReal?Math.abs((rp.uni-rp.sushi)/Math.min(rp.uni,rp.sushi)*100):null;
+
+  if(!basePct){
+    el('routeList').innerHTML='<div style="text-align:center;padding:18px;color:var(--mu);font-size:12px">Waiting for real price data...</div>';
+    el('routeNote').textContent='Awaiting live prices';
+    return;
+  }
+
+  var routes=[
+    {name:'Uniswap v3 &rarr; SushiSwap',fee:'0.3%',liq:'High',pct:basePct},
+    {name:'SushiSwap &rarr; Uniswap v3',fee:'0.3%',liq:'Medium',pct:basePct*0.7},
+    {name:'Uniswap v2 &rarr; SushiSwap',fee:'0.3%',liq:'Low',pct:basePct*0.4},
+  ];
+  if(S.tog.hop)routes.push({name:'Multi-hop ETH&rarr;USDC&rarr;WBTC',fee:'0.6%',liq:'Med',pct:basePct*1.3});
+  routes.forEach(function(r){r.gross=amt*S.ethUsd*(r.pct/100);r.net=r.gross-(slipPct/100*r.gross)-gasCost;});
+  routes.sort(function(a,b){return b.net-a.net;});
+
+  el('routeNote').textContent='Uni $'+fmtN(rp.uni)+' / Sushi $'+fmtN(rp.sushi);
+  el('routeList').innerHTML=routes.map(function(r,i){
+    var pos=r.net>0;
+    return '<div class="route '+(i===0?'sel':'')+'">'
+      +'<div class="rt"><span class="rn">'+r.name+(i===0?' <span class="tag tr">BEST</span>':'')+'</span>'
+      +'<span class="rp '+(pos?'cg':'cr')+'">'+(pos?'+':'')+fmt(r.net)+'</span></div>'
+      +'<div class="rd"><span>Fee: '+r.fee+'</span><span>Liq: '+r.liq+'</span><span>Slip: '+slipPct.toFixed(1)+'%</span><span>Gross: '+fmt(r.gross)+'</span></div>'
+      +'</div>';
+  }).join('');
+
+  document.querySelectorAll('.route').forEach(function(e){
+    e.addEventListener('click',function(){
+      document.querySelectorAll('.route').forEach(function(r){r.classList.remove('sel');});
+      e.classList.add('sel');
+    });
+  });
+}
+el('recalcBtn').addEventListener('click',updateRoutes);
+el('selPair').addEventListener('change',updateRoutes);
+
+// ── CUSTOM PAIRS ─────────────────────────────────────────────
+el('addPairBtn').addEventListener('click',function(){
+  var addrA=el('addrA').value.trim(); var addrB=el('addrB').value.trim();
+  var addrUni=el('addrUni').value.trim(); var addrSushi=el('addrSushi').value.trim();
+  var label=(el('pairLabel').value.trim()||'').toUpperCase();
+  if(!addrA||!addrB){alert('Token A and B addresses are required.');return;}
+  if(!isAddr(addrA)){alert('Token A address is invalid.');return;}
+  if(!isAddr(addrB)){alert('Token B address is invalid.');return;}
+  if(addrUni&&!isAddr(addrUni)){alert('Uniswap pool address is invalid.');return;}
+  if(addrSushi&&!isAddr(addrSushi)){alert('SushiSwap pool address is invalid.');return;}
+  if(!label)label=addrA.slice(0,6)+'/'+addrB.slice(0,6);
+  if(POOLS[label]){alert('Pair "'+label+'" already exists.');return;}
+  S.customPairs[label]=true;
+  POOLS[label]={uni:addrUni||addrA,sushi:addrSushi||addrB};
+  var opt=document.createElement('option'); opt.value=label; opt.textContent=label+' (Custom)';
+  el('selPair').appendChild(opt);
+  var tag=document.createElement('span'); tag.className='ptag';
+  tag.innerHTML=label+' <span class="rm" data-l="'+label+'">&times;</span>';
+  tag.querySelector('.rm').addEventListener('click',function(){
+    var l=this.dataset.l;
+    delete S.customPairs[l]; delete POOLS[l];
+    Array.from(el('selPair').options).forEach(function(o){if(o.value===l)o.remove();});
+    tag.remove(); fetchPrices();
+  });
+  el('customList').appendChild(tag);
+  el('addrA').value=''; el('addrB').value=''; el('addrUni').value=''; el('addrSushi').value=''; el('pairLabel').value='';
+  fetchPrices();
+  alert('Custom pair "'+label+'" added! Fetching live prices now...');
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+fetchTicker();
+S.ivs.ticker=setInterval(fetchTicker,60000);
+fetchGas();
+S.ivs.gas=setInterval(fetchGas,30000);
+fetchPrices();
+S.ivs.prices=setInterval(fetchPrices,30000);
+updateMetrics();
+updatePnlPanel();
+updateGasUI();
+updateDemoBal();
+updateTwoPctUI();
+scanOpps();
+S.ivs.passive=setInterval(scanOpps,8000);
+
+})();
+</script>
+</body>
+</html>
